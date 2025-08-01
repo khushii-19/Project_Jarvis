@@ -81,24 +81,13 @@ Jarvis is a lightweight AI-powered desktop assistant that listens for commands, 
    cd jarvis-voice-assistant
 
    Install dependencies
-
-bash
-Copy
-Edit
 pip install -r requirements.txt
 
 Set up your .env file
-
-ini
-Copy
-Edit
 GEMINI_API_KEY=your_gemini_api_key
 NEWS_API_KEY=your_newsapi_key
-Run the project
 
-bash
-Copy
-Edit
+Run the project
 python main.py
 
 Important Notes
