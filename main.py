@@ -64,7 +64,7 @@ def processCommand(c):
         try:
             song = " ".join(c.split(" ")[1:]).strip()
             if song:
-                link = musicLibrary.music.get(song.lower())  # assuming keys are lowercase
+                link = musicLibrary.music.get(song.lower()) 
                 if link:
                     webbrowser.open(link)
                     speak(f"Playing {song}")
@@ -77,7 +77,7 @@ def processCommand(c):
         
     elif "news" in c.lower():
             print("Fetching news...")
-            api_key = "15b9845f96014cf985ffefc8752e2912"  # replace this with your actual API key
+            api_key = "15b9845f96014cf985ffefc8752e2912"  
 
             url = f"https://newsapi.org/v2/everything?q=india&language=en&sortBy=publishedAt&pageSize=5&apiKey={api_key}"
 
@@ -92,7 +92,6 @@ def processCommand(c):
                 speak("Sorry, I couldn't find any recent news.")
 
     else:
-        # Let OpenAI handle the request
         output = aiProcess(c)
         speak(output) 
 
