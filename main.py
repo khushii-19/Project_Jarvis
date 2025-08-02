@@ -10,7 +10,7 @@ import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 from gtts import gTTS
-import pygame
+import pygame #to change voice
 import os
 
 # will create recognizer object
@@ -22,9 +22,6 @@ engine.setProperty('rate', 150)
 engine.setProperty('volume', 1.0)
 # voices = engine.getProperty('voices')
 # engine.setProperty('voice', voices[0].id)
-
-newsapi = os.getenv("NEWS_API_KEY")
-
 
 # function to create speech
 def speak_old(text):
@@ -41,7 +38,7 @@ def speak(text):
     pygame.mixer.init()
 
     # Load the MP3 file
-    pygame.mixer.music.load('temp.mp3')
+    pygame.mixer.music.load('temp.mp3')  
 
     # Play the MP3 file
     pygame.mixer.music.play()
@@ -66,7 +63,7 @@ def processCommand(c):
     elif c.lower().startswith("play"):
         try:
             song = c.split(" ")[1] #yaha pe play qatal aaya to it will convert it into list by spliting [play , qatal]
-            link = musicLibrary.music.get(song)
+            link = musicLibrary.music[song]
             if link:
                 webbrowser.open(link)
                 speak(f"Playing {song}")
@@ -76,17 +73,25 @@ def processCommand(c):
             speak("Please say the song name after 'play'")
         
     elif "news" in c.lower():
-        r = requests.get(f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi}")
-        if r.status_code == 200:
-            # Parse the JSON response
-            data = r.json()
-            
-            # Extract the articles
-            articles = data.get('articles', [])
-            
-            # Print the headlines
-            for article in articles:
-                speak(article['title'])
+            print("Fetching news...")
+            api_key = "15b9845f96014cf985ffefc8752e2912"  # replace this with your actual API key
+
+            url = f"https://newsapi.org/v2/everything?q=india&language=en&sortBy=publishedAt&pageSize=5&apiKey={api_key}"
+
+            response = requests.get(url)
+            data = response.json()
+
+            print("Status Code:", response.status_code)
+            print("Response:", data)
+
+            if data["status"] == "ok" and data["articles"]:
+                for article in data["articles"]:
+                    title = article["title"]
+                    print("Title:", title)
+                    speak(title)
+            else:
+                print("No news articles found.")
+                speak("Sorry, I couldn't find any recent news.")
 
     else:
         # Let OpenAI handle the request
@@ -114,7 +119,7 @@ if __name__ == "__main__":
         try:
             with sr.Microphone() as source:
                 print("Listening...")
-                audio = r.listen(source, timeout=10, phrase_time_limit=5)
+                audio = r.listen(source, timeout=2, phrase_time_limit=1)
             word = r.recognize_google(audio)
             if(word.lower() == "jarvis"):
                 speak("Yes I am listening")
@@ -127,6 +132,9 @@ if __name__ == "__main__":
                     processCommand(command)
         except Exception as e:
             print("Error; {0}".format(e))
+
+
+
 
 
 
