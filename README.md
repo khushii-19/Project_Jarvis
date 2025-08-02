@@ -85,7 +85,6 @@ pip install -r requirements.txt
 
 Set up your .env file
 GEMINI_API_KEY=your_gemini_api_key
-NEWS_API_KEY=your_newsapi_key
 
 Run the project
 python main.py
