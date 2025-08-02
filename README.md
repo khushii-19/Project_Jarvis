@@ -39,7 +39,7 @@ Jarvis is a lightweight AI-powered desktop assistant that listens for commands, 
 ## 🔄 Workflow
 
 1. **Initialization**
-   - Prints and speaks "Initializing Jarvis..."
+   - Prints and speaks "Hello I'm Jarvis.How can I help you today"
 
 2. **Wake Word Detection**
    - Continuously listens for the wake word **"Jarvis"**.
