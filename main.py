@@ -62,15 +62,18 @@ def processCommand(c):
         webbrowser.open("https://linkedin.com")
     elif c.lower().startswith("play"):
         try:
-            song = c.split(" ")[1] #yaha pe play qatal aaya to it will convert it into list by spliting [play , qatal]
-            link = musicLibrary.music[song]
-            if link:
-                webbrowser.open(link)
-                speak(f"Playing {song}")
+            song = " ".join(c.split(" ")[1:]).strip()
+            if song:
+                link = musicLibrary.music.get(song.lower())  # assuming keys are lowercase
+                if link:
+                    webbrowser.open(link)
+                    speak(f"Playing {song}")
+                else:
+                    speak("Song not found.")
             else:
-                speak("Song not found.")
+                speak("Please say the song name after 'play'")
         except:
-            speak("Please say the song name after 'play'")
+           speak("Please say the song name after 'play'")
         
     elif "news" in c.lower():
             print("Fetching news...")
@@ -80,17 +83,12 @@ def processCommand(c):
 
             response = requests.get(url)
             data = response.json()
-
-            print("Status Code:", response.status_code)
-            print("Response:", data)
-
             if data["status"] == "ok" and data["articles"]:
                 for article in data["articles"]:
                     title = article["title"]
                     print("Title:", title)
                     speak(title)
             else:
-                print("No news articles found.")
                 speak("Sorry, I couldn't find any recent news.")
 
     else:
@@ -119,7 +117,7 @@ if __name__ == "__main__":
         try:
             with sr.Microphone() as source:
                 print("Listening...")
-                audio = r.listen(source, timeout=2, phrase_time_limit=1)
+                audio = r.listen(source, timeout=5, phrase_time_limit=3)
             word = r.recognize_google(audio)
             if(word.lower() == "jarvis"):
                 speak("Yes I am listening")
