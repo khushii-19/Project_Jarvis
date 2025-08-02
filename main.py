@@ -106,7 +106,7 @@ def aiProcess(command):
 
 
 if __name__ == "__main__":
-    speak("Initializing Jarvis....")
+    speak("Hey I'm Jarvis.How can i help you today?")
     while True:
         # Listen for the wake word "Jarvis"
         # obtain audio from the microphone
@@ -118,8 +118,8 @@ if __name__ == "__main__":
                 print("Listening...")
                 audio = r.listen(source, timeout=5, phrase_time_limit=3)
             word = r.recognize_google(audio)
-            if(word.lower() == "jarvis"):
-                speak("Yes I am listening")
+            if("jarvis" in word.lower()):
+                speak("Ya")
                 # Listen for command
                 with sr.Microphone() as source:
                     print("Jarvis Active...")
